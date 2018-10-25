@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RfidUtils.iml" filepath="$PROJECT_DIR$/RfidUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/som-rfid/som-rfid.iml" filepath="$PROJECT_DIR$/som-rfid/som-rfid.iml" />
+    </modules>
+  </component>
+</project>

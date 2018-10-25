@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+  compileSdkVersion sdk
+  defaultConfig {
+    minSdkVersion minSdk
+    targetSdkVersion sdk
+    versionCode 1
+    versionName "1.0"
+    ndk {
+      abiFilters 'armeabi-v7a' // ,'armeabi', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+    }
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes {
+    release {
+      postprocessing {
+        removeUnusedCode false
+        removeUnusedResources false
+        obfuscate false
+        optimizeCode false
+        proguardFile 'proguard-rules.pro'
+      }
+    }
+  }
+}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+  implementation "org.jetbrains.anko:anko-commons:$anko_version"
+  implementation "com.android.support:appcompat-v7:$support_version"
+  testImplementation 'junit:junit:4.12'
+  androidTestImplementation 'com.android.support.test:runner:1.0.2'
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+publish {
+  userOrg = 'xxl' //bintray注册的用户名（不是邮箱）
+  groupId = 'com.kingyun.som.rfid'
+  artifactId = 'RfidUtils' //项目名称
+  publishVersion = '1.0.0' //版本号
+  desc = '' //项目描述。可空。
+  website = '' //项目地址，一般填github地址。可空。
+}
