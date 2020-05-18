@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import com.kingyun.som.rfid.BatteryReceiver
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
 import com.speedata.libuhf.IUHFService
 import com.speedata.libuhf.UHFManager
+import com.speedata.libuhf.bean.SpdInventoryData
+import com.speedata.libuhf.interfaces.OnSpdInventoryListener
 
 
 /**
@@ -33,26 +34,22 @@ class CZScanner : RFIDScanner {
                     tagListener?.onLogReceive(log, action)
                 }
             })
-            val success = if (iuhfService == null) {
-                iuhfService = UHFManager.getUHFService(activity)
-                iuhfService?.OpenDev() ?: -1 == 0
-            } else {
-                true
-            }
+            iuhfService = UHFManager.getUHFService(activity)
+            val success = iuhfService?.openDev() != 0
+            iuhfService!!.setOnInventoryListener(object : OnSpdInventoryListener {
 
-            if (success) {
-                iuhfService!!.setOnInventoryListener {
-                    it.run {
-                        val info = "rssi: $rssi, epc: $epc, tid: $tid"
-                        Handler(Looper.getMainLooper()).post {
-                            tagListener?.onSuccess(epc, info)
-                        }
+                override fun onInventoryStatus(status: Int) {
+                }
+
+                override fun getInventoryData(var1: SpdInventoryData?) {
+                    val info = "rssi: ${var1?.rssi}, epc: ${var1?.epc}, tid: ${var1?.tid}"
+                    Handler(Looper.getMainLooper()).post {
+                        tagListener?.onSuccess(var1?.epc, info)
                     }
                 }
-                if (!BatteryReceiver.LOW_POWER_MODEL) {
-                    iuhfService!!.newInventoryStart()
-                }
-            }
+
+            })
+            iuhfService?.inventoryStart()
             return success
         } catch (e: Exception) {
             e.printStackTrace()
@@ -61,11 +58,6 @@ class CZScanner : RFIDScanner {
     }
 
     override fun stop() {
-        try {
-            iuhfService?.inventory_stop()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
         iuhfService?.setOnReadListener(null)
         nfcScanner?.stop()
         tagListener = null
@@ -73,7 +65,8 @@ class CZScanner : RFIDScanner {
 
     override fun release() {
         try {
-            iuhfService?.CloseDev()
+            iuhfService?.inventoryStop()
+            iuhfService?.closeDev()
             iuhfService = null
             UHFManager.closeUHFService()
         } catch (e: Exception) {
