@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidStudioProject-RfidUtils.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidStudioProject-RfidUtils.iml" group="RfidUtils" />
       <module fileurl="file://$PROJECT_DIR$/RfidUtils.iml" filepath="$PROJECT_DIR$/RfidUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/RfidUtils-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/RfidUtils-app.iml" group="RfidUtils/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/som-rfid/RfidUtils-som-rfid.iml" filepath="$PROJECT_DIR$/.idea/modules/som-rfid/RfidUtils-som-rfid.iml" group="RfidUtils/som-rfid" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/som-rfid/som-rfid.iml" filepath="$PROJECT_DIR$/som-rfid/som-rfid.iml" />
     </modules>

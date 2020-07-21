@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.coolxiao'//xxx是你的github名字
 
 android {
   compileSdkVersion sdk
@@ -40,12 +41,4 @@ dependencies {
   //川中 2020 新平板RFID
   implementation 'com.github.SpeedataG:UHF:8.3.0'
   implementation 'com.github.SpeedataG:Device:1.6.9'
-}
-publish {
-  userOrg = 'xxl' //bintray注册的用户名（不是邮箱）
-  groupId = 'com.kingyun.som.rfid'
-  artifactId = 'RfidUtils' //项目名称
-  publishVersion = '1.0.0' //版本号
-  desc = '' //项目描述。可空。
-  website = '' //项目地址，一般填github地址。可空。
 }
