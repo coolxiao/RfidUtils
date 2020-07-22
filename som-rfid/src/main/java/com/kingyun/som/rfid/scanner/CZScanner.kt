@@ -61,9 +61,7 @@ class CZScanner : RFIDScanner {
         iuhfService?.setOnReadListener(null)
         nfcScanner?.stop()
         tagListener = null
-    }
 
-    override fun release() {
         try {
             iuhfService?.inventoryStop()
             iuhfService?.closeDev()
@@ -72,6 +70,9 @@ class CZScanner : RFIDScanner {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    override fun release() {
     }
 
     override fun onResume(activity: Activity) {
