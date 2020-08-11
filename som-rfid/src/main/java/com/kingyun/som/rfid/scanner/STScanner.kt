@@ -90,7 +90,7 @@ class STScanner : RFIDScanner, UHFModelListener {
             mTimer?.cancel()
             mTimer = null
             mActivity?.get()?.runOnUiThread {
-                mListener?.onSuccess(EPC, "EPC")
+                mListener?.onSuccess(EPC.replace(" ",""), "EPC")
             }
         }
     }
