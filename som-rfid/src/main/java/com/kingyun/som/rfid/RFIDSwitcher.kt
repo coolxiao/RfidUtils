@@ -26,6 +26,7 @@ class RFIDSwitcher private constructor() {
                 "KT80", "T80", "SD100T" -> CZScanner()
                 "T71-V3" -> UHFScanner(File("/dev/ttyMT2"))
                 "KY71" -> UHFScanner(File("/dev/ttyMT2"))
+                "KY70", "T70HEX" -> STScanner()
                 else -> {
                     try {
                         UHFScanner(null)

@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
       RFIDSwitcher.instance.open(this, object :TagListener{
         override fun onSuccess(rfid: String?, info: String?) {
           Toast.makeText(this@MainActivity, rfid, Toast.LENGTH_SHORT).show()
+          RFIDSwitcher.instance.close()
         }
         override fun onLogReceive(log: String?, action: String?) {
         }

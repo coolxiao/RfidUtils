@@ -1,0 +1,4 @@
+1.系统首先要安装jdk1.6.0_18或以上的版本java环境。
+2.进入到“apk系统签名软件”文件夹里，将要签名的apk放该目录下。
+3.将要签名的apk名字该为“androidTest.apk”（或者自行在singed.bat里修改）.
+4.执行singed.bat脚本，该根目录下生成androidTestSinged.apk系统签名apk 
