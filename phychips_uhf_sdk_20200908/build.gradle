@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('phychips_uhf_sdk_20200908.aar'))

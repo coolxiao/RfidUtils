@@ -1,1 +1,3 @@
+include ':serialport_sdk_20200908'
+include ':phychips_uhf_sdk_20200908'
 include ':app', ':som-rfid'
