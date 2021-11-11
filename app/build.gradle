@@ -8,6 +8,7 @@ android {
         applicationId "com.kingyun.rfid"
         minSdkVersion minSdk
         targetSdkVersion sdk
+        ndkVersion "21.1.6352462"
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
