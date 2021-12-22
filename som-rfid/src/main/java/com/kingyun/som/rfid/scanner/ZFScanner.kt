@@ -57,15 +57,13 @@ class ZFScanner() : RFIDScanner, SerialCallBack {
       if (sb.indexOf("7E") < sb.length - 2) {
         val array = sb.toString().split("7E")
         if (array.size > 1) {
-          var last_str = array[1]
           var first_str = array[0]
-          if ("BB" == last_str.subSequence(0, 2)) {
-            last_str = last_str.substring(10, last_str.length - 2)
+          if (first_str.length > 2) {
+            if ("BB" == first_str.subSequence(0, 2)) {
+              first_str = first_str.substring(10, first_str.length - 2)
+            }
+            result = first_str
           }
-          if ("BB" == first_str.subSequence(0, 2)) {
-            first_str = first_str.substring(10, first_str.length - 2)
-          }
-          result = first_str
         }
       } else {
         if ("BB" == sb.subSequence(0, 2)) {
