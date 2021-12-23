@@ -35,6 +35,7 @@ class ZFScanner() : RFIDScanner, SerialCallBack {
   }
 
   override fun stop() {
+    SerialPortUtil.sendString("0xBB00280000287E")
     FileWriter.writeFile(POWER_OFF_STR)
     SerialPortUtil.closeCom()
   }
@@ -74,9 +75,6 @@ class ZFScanner() : RFIDScanner, SerialCallBack {
       }
     }
     if (!TextUtils.isEmpty(result)) {
-      SerialPortUtil.sendString("0xBB00280000287E")
-      FileWriter.writeFile(POWER_OFF_STR)
-      SerialPortUtil.closeCom()
       doAsync {
         uiThread {
           if (result.length == 34) {
