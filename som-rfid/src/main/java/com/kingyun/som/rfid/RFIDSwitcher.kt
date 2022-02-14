@@ -23,7 +23,7 @@ class RFIDSwitcher private constructor() {
                 "RMPC-M01" -> M6eScanner()
                 "XPad_05" -> HFScanner()
                 "ax6753_66_sh_n" -> UHF13Scanner()
-                "KT80", "T80", "SD100T" -> CZScanner()
+                "KT80", "T80", "SD100T", "SD100" -> CZScanner()
                 "T71-V3" -> UHFScanner(File("/dev/ttyMT2"))
                 "KY71" -> UHFScanner(File("/dev/ttyMT2"))
                 "KY70", "T70HEX","T70HEX-V3" -> STScanner()
