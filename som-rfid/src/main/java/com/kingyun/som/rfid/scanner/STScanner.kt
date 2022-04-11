@@ -62,6 +62,8 @@ class STScanner : RFIDScanner, UHFModelListener {
     }
 
     override fun stop() {
+        mTimer?.cancel()
+        mTimer = null
         mUHFManager.unregister(this)
         mUHFManager.close(mUhf, mActivity?.get())
         mActivity?.clear()
