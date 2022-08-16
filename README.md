@@ -26,7 +26,7 @@ implementation('com.github.coolxiao:RfidUtils:1.2.4') {
 
 ## 示例
 
-代码示例 （二维码/条形码）
+代码示例
 
 ```Java
     override fun onCreate(savedInstanceState:Bundle?){
