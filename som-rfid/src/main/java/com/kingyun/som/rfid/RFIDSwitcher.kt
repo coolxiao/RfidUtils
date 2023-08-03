@@ -1,7 +1,6 @@
 package com.kingyun.som.rfid
 
 import android.app.Activity
-import android.app.Application
 import android.content.Intent
 import android.os.Build
 import android.util.Log
@@ -31,7 +30,7 @@ class RFIDSwitcher private constructor() {
                 "Q802+","Q802", "G82-EX" -> UHFQScanner()
                 "conquest-S19" -> ZFScanner()
                 "EV8", "P8000" -> XYScanner()
-                "M5" -> UHFScanner(File("/dev/ttyMT1"))
+                "M5" -> M5Scanner()
                 else -> {
                     try {
                         UHFScanner(null)
