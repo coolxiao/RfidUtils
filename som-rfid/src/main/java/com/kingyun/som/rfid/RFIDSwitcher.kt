@@ -30,7 +30,8 @@ class RFIDSwitcher private constructor() {
                 "Q802+","Q802", "G82-EX" -> UHFQScanner()
                 "conquest-S19" -> ZFScanner()
                 "EV8", "P8000" -> XYScanner()
-                "M5" -> M5Scanner()
+                "M5" -> M5Scanner("/dev/ttyMT1")
+                "A80ST" -> M5Scanner("/dev/ttySWK0")
                 else -> {
                     try {
                         UHFScanner(null)

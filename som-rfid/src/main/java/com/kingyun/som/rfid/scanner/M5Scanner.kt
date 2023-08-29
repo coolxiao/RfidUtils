@@ -13,7 +13,7 @@ import org.jetbrains.anko.uiThread
 /**
  * Created by xifan on 17-12-18.
  */
-class M5Scanner : RFIDScanner {
+class M5Scanner(val portPath: String) : RFIDScanner {
 
   private var reader: UhfReader? = null
   @Volatile private var startFlag = false
@@ -21,7 +21,7 @@ class M5Scanner : RFIDScanner {
   override fun start(activity: Activity, listener: TagListener?): Boolean {
     doAsync {
       startFlag = true
-      UhfReader.setPortPath("/dev/ttyMT1")
+      UhfReader.setPortPath(portPath)
       reader = UhfReader.getInstance()
       reader?.setOutputPower(26)
       try {
