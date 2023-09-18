@@ -14,7 +14,7 @@ import uhf.Types
 /**
  * Created by xifan on 17-11-2.
  */
-class XYScanner() : RFIDScanner, MultiLableCallBack {
+class XYScanner(val portPath: String) : RFIDScanner, MultiLableCallBack {
     var _clients: List<AsyncSocketState>? = null
     var clientstate: AsyncSocketState? = null
     var ReaderController: Reader? = null
@@ -25,7 +25,7 @@ class XYScanner() : RFIDScanner, MultiLableCallBack {
         deal = false
         ReaderController = Reader(this)
         mlistener = listener;
-        ReaderController?.OpenSerialPort_Android("/dev/ttyUW0")
+        ReaderController?.OpenSerialPort_Android(portPath)
         _clients = ReaderController?.GetClientInfo()
         clientstate = _clients?.get(0)
         ReaderController?.StartMultiEPC(clientstate)
