@@ -2,6 +2,7 @@ package cn.pda.rfid.hf;
 
 import android.util.Log;
 
+import cn.pda.serialport.SerialPort;
 import com.pda.hf.HfNative;
 
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.pda.serialport.SerialPort;
 import cn.pda.serialport.Tools;
 
 public class HfReader implements HfConmmand {
