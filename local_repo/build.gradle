@@ -1,0 +1,3 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('libDevice_v1.7.8_2022-06-17.aar'))
+artifacts.add("default", file('libUHF_v3.2.24_20231008.aar'))

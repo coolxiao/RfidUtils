@@ -1,1 +1,1 @@
-include ':app', ':som-rfid'
+include ':app', ':som-rfid',':local_repo'
