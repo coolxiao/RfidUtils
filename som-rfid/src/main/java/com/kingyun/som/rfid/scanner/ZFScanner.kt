@@ -38,6 +38,7 @@ class ZFScanner(var powerOn: String, var powerOff: String) : RFIDScanner, Serial
   }
 
   override fun stop() {
+    SerialPortCallBackUtils.setCallBack(null)
     SerialPortUtil.sendString("0xBB00280000287E")
     FileWriter.writeFile(powerOff)
     SerialPortUtil.closeCom()
