@@ -83,8 +83,8 @@ class ZFScanner(var powerOn: String, var powerOff: String) : RFIDScanner, Serial
         uiThread {
           if (result.length == 34) {
             result = result.substring(6, 30)
+            tagListener?.onSuccess(result, "")
           }
-          tagListener?.onSuccess(result, "")
         }
       }
     }
