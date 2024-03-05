@@ -31,7 +31,7 @@ class RFIDSwitcher private constructor() {
                 "conquest-S19" -> ZFScanner(POWER_ON_STR_S19, POWER_OFF_STR_S19)
                 "conquest-S22" -> ZFScanner(POWER_ON_STR_S22, POWER_OFF_STR_S22)
                 "EV8", "P8000", "EV8000" -> XYScanner("/dev/ttyUW0")
-                "M5" -> M5Scanner("/dev/ttyMT1")
+                "M5" -> UHFScanner(File("/dev/ttyMT1"))
                 "A80ST" -> M5Scanner("/dev/ttySWK0")
                 "A2308" -> XYScanner("/dev/ttySWK0")
                 "L800", "L800D" -> M5Scanner(("/dev/ttyXRM1"))
