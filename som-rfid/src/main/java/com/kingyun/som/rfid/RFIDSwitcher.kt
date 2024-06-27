@@ -25,7 +25,7 @@ class RFIDSwitcher private constructor() {
                 "KT80", "T80", "SD100T", "SD100","ZKHD-HL-XN8QTA" -> CZScanner()
                 "T71-V3" -> UHFScanner(File("/dev/ttyMT2"))
                 "KY71" -> UHFScanner(File("/dev/ttyMT2"))
-                "KY70", "T70HEX", "T70HEX2", "T70HEX-V3" -> STScanner()
+                "KY70", "T70HEX", "T70EX", "T70HEX2", "T70HEX-V3" -> STScanner()
                 "U8" -> HXUHFScanner()
                 "Q802+","Q802", "G82-EX" -> UHFQScanner()
                 "conquest-S19" -> ZFScanner(POWER_ON_STR_S19, POWER_OFF_STR_S19)
