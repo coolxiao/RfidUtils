@@ -41,7 +41,7 @@ public class SerialPortUtil {
             receive();
             isopen = true;
             isFlagSerial = true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             isopen = false;
         }

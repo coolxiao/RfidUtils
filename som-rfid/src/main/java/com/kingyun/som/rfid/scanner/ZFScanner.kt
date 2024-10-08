@@ -18,19 +18,31 @@ import kotlin.concurrent.schedule
  * Created by xifan on 17-11-2.
  */
 
+const val S19_NODE = "/sys/class/yt_gpio_ctl/yt_gpio_ctl/yt_gpio_ctl"
 const val POWER_ON_STR_S19 = "rfiden 3"
 const val POWER_OFF_STR_S19 = "rfiden 0"
 
+const val S22_NODE = "/sys/class/yt_gpio_ctl/yt_gpio_ctl/yt_gpio_ctl"
 const val POWER_ON_STR_S22 = "uart1 1"
 const val POWER_OFF_STR_S22 = "uart1 0"
 
-class ZFScanner(var powerOn: String, var powerOff: String) : RFIDScanner, SerialCallBack {
+const val S29_915M_NODE = "/dev/yt_gpio_ctl"
+const val POWER_ON_S29_915M = "rfiden 1"
+const val POWER_OFF_S29_915M = "rfiden 0"
+
+class ZFScanner(
+  var node: String,
+  var powerOn: String,
+  var powerOff: String,
+  var serialPort: String
+) : RFIDScanner,
+  SerialCallBack {
   private var tagListener: TagListener? = null
   override fun start(activity: Activity, listener: TagListener?): Boolean {
     SerialPortCallBackUtils.setCallBack(this)
     tagListener = listener
-    FileWriter.writeFile(powerOn)
-    val open = SerialPortUtil.open("/dev/ttyS1", 115200, 0)
+    FileWriter.writeFile(node, powerOn)
+    val open = SerialPortUtil.open(serialPort, 115200, 0)
     Timer().schedule(1000) {
       SerialPortUtil.sendString("0xBB00270003222710837E")
     }
@@ -40,7 +52,7 @@ class ZFScanner(var powerOn: String, var powerOff: String) : RFIDScanner, Serial
   override fun stop() {
     SerialPortCallBackUtils.setCallBack(null)
     SerialPortUtil.sendString("0xBB00280000287E")
-    FileWriter.writeFile(powerOff)
+    FileWriter.writeFile(node, powerOff)
     SerialPortUtil.closeCom()
   }
 
