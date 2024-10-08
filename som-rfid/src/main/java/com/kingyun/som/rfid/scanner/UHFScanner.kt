@@ -11,7 +11,7 @@ import java.io.File
 /**
  * Created by xifan on 17-11-2.
  */
-class UHFScanner(var device: File?) : RFIDScanner {
+class  UHFScanner(var device: File?) : RFIDScanner {
     init {
         if (device == null) {
             device = when (Build.VERSION.SDK_INT) {
