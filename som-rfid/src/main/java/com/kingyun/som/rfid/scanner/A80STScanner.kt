@@ -2,6 +2,7 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
 import com.magicrf.uhfreaderlib.reader.Tools
@@ -10,18 +11,29 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 
-class A80STScanner(val portPath: String) : RFIDScanner {
+class A80STScanner() : RFIDScanner {
 
   private var reader: A80STUhfReader? = null
   @Volatile private var startFlag = false
 
   override fun start(activity: Activity, listener: TagListener?): Boolean {
     doAsync {
-      startFlag = true
-      A80STUhfReader.setPortPath(portPath)
-      reader = A80STUhfReader.getInstance()
-      reader?.setOutputPower(26)
       try {
+        var portPath = "/dev/ttySWK0"
+        val display = Build.DISPLAY
+        display?.apply {
+          val time = split("-").last().toInt()
+          //2024年后的，使用/dev/ttySWK1
+          if (time > 20240000) {
+            portPath = "/dev/ttySWK1"
+          }
+        }
+
+        startFlag = true
+        A80STUhfReader.setPortPath(portPath)
+        reader = A80STUhfReader.getInstance()
+        reader?.setOutputPower(26)
+
         while (startFlag) {
           val epcList = reader?.inventoryRealTime() //实时盘存
           if (!epcList.isNullOrEmpty()) {
