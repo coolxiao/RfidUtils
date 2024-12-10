@@ -33,6 +33,7 @@ class RFIDSwitcher private constructor() {
                 "H29" -> ZFScanner(S29_915M_NODE, POWER_ON_S29_915M, POWER_OFF_S29_915M, "/dev/ttyS0")
                 "EV8", "P8000", "EV8000", "W810" -> XYScanner("/dev/ttyUW0")
                 "M5" -> UHFScanner(File("/dev/ttyMT1"))
+                "M5-5G" -> M55GScanner("/dev/ttyS1")
                 "P9000" -> P9000Scanner("/dev/ttyMT1")
                 "A80ST" -> A80STScanner()
                 "A2308" -> XYScanner("/dev/ttySWK0")
