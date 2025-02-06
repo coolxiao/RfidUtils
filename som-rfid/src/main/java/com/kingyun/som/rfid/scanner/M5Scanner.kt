@@ -2,12 +2,13 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
 import com.magicrf.uhfreaderlib.reader.Tools
 import com.magicrf.uhfreaderlib.reader.UhfReader
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlin.concurrent.thread
 
 
 /**
@@ -19,7 +20,8 @@ class M5Scanner(val portPath: String) : RFIDScanner {
   @Volatile private var startFlag = false
 
   override fun start(activity: Activity, listener: TagListener?): Boolean {
-    doAsync {
+    val handler = Handler(Looper.getMainLooper())
+    thread {
       startFlag = true
       UhfReader.setPortPath(portPath)
       reader = UhfReader.getInstance()
@@ -33,7 +35,7 @@ class M5Scanner(val portPath: String) : RFIDScanner {
               if (epc != null) {
                 val epcStr = Tools.Bytes2HexString(epc, epc.size)
                 if (!epcStr.isNullOrEmpty()) {
-                  uiThread {
+                  handler.post {
                     listener?.onSuccess(epcStr, "")
                   }
                   startFlag = false

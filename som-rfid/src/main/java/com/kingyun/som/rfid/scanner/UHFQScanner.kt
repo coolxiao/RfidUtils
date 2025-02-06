@@ -2,12 +2,13 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import cn.pda.serialport.Tools
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
 import com.kingyun.som.rfid.rugged.UhfManager
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlin.concurrent.thread
 
 class UHFQScanner() : RFIDScanner {
     var uhfManager: UhfManager? = null
@@ -16,18 +17,18 @@ class UHFQScanner() : RFIDScanner {
         uhfManager = UhfManager.getInstance()
         uhfManager?.setOutputPower(26)
         uhfManager?.setWorkArea(UhfManager.WorkArea_USA)
-
-        doAsync {
+        val handler = Handler(Looper.getMainLooper())
+        thread {
             while (true) {
                 val epcList = uhfManager?.inventoryRealTime()
                 if (epcList != null && epcList.isNotEmpty()) {
                     for (epc in epcList) {
                         val epcStr: String = Tools.Bytes2HexString(epc,
                                 epc.size)
-                        uiThread {
+                        handler.post {
                             listener?.onSuccess(epcStr, "")
                         }
-                        return@doAsync
+                        return@thread
                     }
                 }
             }

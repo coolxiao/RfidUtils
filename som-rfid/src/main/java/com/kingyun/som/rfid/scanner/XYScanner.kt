@@ -2,14 +2,15 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import uhf.AsyncSocketState
 import uhf.MultiLableCallBack
 import uhf.Reader
 import uhf.Types
+import kotlin.concurrent.thread
 
 /**
  * Created by xifan on 17-11-2.
@@ -47,8 +48,9 @@ class XYScanner(val portPath: String) : RFIDScanner, MultiLableCallBack {
                     if (rfid.isNotEmpty()) {
                         deal = true
                         ReaderController?.StopMultiEPC(clientstate)
-                        doAsync {
-                            uiThread {
+                        val handler = Handler(Looper.getMainLooper())
+                        thread {
+                            handler.post {
                                 mlistener?.onSuccess(rfid, "")
                             }
                         }

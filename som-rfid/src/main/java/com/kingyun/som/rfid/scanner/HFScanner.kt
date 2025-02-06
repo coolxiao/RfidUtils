@@ -2,13 +2,14 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import cn.pda.rfid.hf.HfError
 import cn.pda.rfid.hf.HfReader
 import cn.pda.serialport.Tools
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlin.concurrent.thread
 
 /**
  * Created by xifan on 17-11-1.
@@ -20,7 +21,7 @@ class HFScanner : RFIDScanner {
     @Volatile private var loop: Boolean = false
 
     override fun start(activity: Activity, listener: TagListener?): Boolean {
-        doAsync {
+        thread {
             this@HFScanner.reader = HfReader(14, HfReader.POWER_PSAM)
             this@HFScanner.listener = listener
             loopNfc()
@@ -29,13 +30,14 @@ class HFScanner : RFIDScanner {
     }
 
     private fun loopNfc() {
-        doAsync {
+        val handler = Handler(Looper.getMainLooper())
+        thread {
             loop = true
             while (loop) {
                 val error = HfError()
                 val result = reader!!.findCard14443A(error)
                 if (result != null) {
-                    uiThread {
+                    handler.post {
                         listener?.onSuccess(Tools.Bytes2HexString(result, result.size), "")
                     }
                 } else {

@@ -2,6 +2,8 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
@@ -9,10 +11,9 @@ import com.kingyun.som.rfid.zf.FileWriter
 import com.kingyun.som.rfid.zf.SerialCallBack
 import com.kingyun.som.rfid.zf.SerialPortCallBackUtils
 import com.kingyun.som.rfid.zf.SerialPortUtil
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.util.Timer
 import kotlin.concurrent.schedule
+import kotlin.concurrent.thread
 
 /**
  * Created by xifan on 17-11-2.
@@ -91,8 +92,9 @@ class ZFScanner(
       }
     }
     if (!TextUtils.isEmpty(result)) {
-      doAsync {
-        uiThread {
+      val handler = Handler(Looper.getMainLooper())
+      thread {
+        handler.post {
           if (result.length == 34) {
             result = result.substring(6, 30)
             tagListener?.onSuccess(result, "")

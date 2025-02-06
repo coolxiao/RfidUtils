@@ -2,12 +2,13 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
 import com.magicrf.uhfreaderlib.reader.A80STUhfReader
 import com.magicrf.uhfreaderlib.reader.Tools
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlin.concurrent.thread
 
 
 class P9000Scanner(val portPath: String) : RFIDScanner {
@@ -21,7 +22,9 @@ class P9000Scanner(val portPath: String) : RFIDScanner {
     intent.setPackage("com.android.settings")
     activity.sendBroadcast(intent)
 
-    doAsync {
+    val handler = Handler(Looper.getMainLooper())
+
+    thread {
       startFlag = true
       A80STUhfReader.setPortPath(portPath)
       reader = A80STUhfReader.getInstance()
@@ -35,7 +38,7 @@ class P9000Scanner(val portPath: String) : RFIDScanner {
               if (epc != null) {
                 val epcStr = Tools.Bytes2HexString(epc, epc.size)
                 if (!epcStr.isNullOrEmpty()) {
-                  uiThread {
+                  handler.post {
                     listener?.onSuccess(epcStr, "")
                   }
                   startFlag = false

@@ -2,12 +2,13 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import cn.pda.serialport.Tools
 import com.android.hdhe.uhf.reader.UhfReader
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlin.concurrent.thread
 
 /**
  * company 重庆庆云石油工程技术有限责任公司
@@ -22,7 +23,8 @@ class UHF13Scanner:RFIDScanner {
   @Volatile private var start: Boolean = false
   private var reader: UhfReader? = null
   override fun start(activity: Activity, listener: TagListener?): Boolean {
-    doAsync {
+    val handler = Handler(Looper.getMainLooper())
+    thread {
       reader = UhfReader.getInstance()
       reader?.setWorkArea(0)
       reader?.setOutputPower(0)
@@ -35,10 +37,8 @@ class UHF13Scanner:RFIDScanner {
           for (epc in epcList) {
             if (epc != null && epc.isNotEmpty()) {
               val epcStr = Tools.Bytes2HexString(epc,
-                  epc.size)
-              uiThread {
-                listener?.onSuccess(epcStr, "")
-              }
+                epc.size)
+              handler.post {  listener?.onSuccess(epcStr, "") }
             }
           }
         }

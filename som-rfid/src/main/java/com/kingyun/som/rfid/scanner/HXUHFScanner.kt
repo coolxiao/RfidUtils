@@ -2,14 +2,15 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.cw.phychipsuhfsdk.UHFHXAPI
 import com.cw.serialportsdk.cw
 import com.cw.serialportsdk.utils.DataUtils
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlin.concurrent.thread
 
 /**
  * Created by xifan on 17-11-2.
@@ -30,7 +31,8 @@ class HXUHFScanner() : RFIDScanner {
     }
 
     private fun read() {
-        doAsync {
+        val handler = Handler(Looper.getMainLooper())
+        thread {
             api!!.readEPC(object : UHFHXAPI.AutoRead {
                 override fun start() {
                     Log.e("HXUHFScanner", "start")
@@ -43,7 +45,7 @@ class HXUHFScanner() : RFIDScanner {
 
                 override fun processing(p0: ByteArray?) {
                     Log.e("HXUHFScanner", p0.toString())
-                    uiThread {
+                    handler.post {
                         listener?.onSuccess(DataUtils.toHexString(p0).substring(4).toUpperCase(), "")
                     }
                 }

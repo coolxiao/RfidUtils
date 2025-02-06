@@ -2,13 +2,14 @@ package com.kingyun.som.rfid.scanner
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import com.kingyun.som.rfid.RFIDScanner
 import com.kingyun.som.rfid.TagListener
 import com.magicrf.uhfreaderlib.reader.A80STUhfReader
 import com.magicrf.uhfreaderlib.reader.Tools
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.io.FileWriter
+import kotlin.concurrent.thread
 
 
 class M55GScanner(val portPath: String) : RFIDScanner {
@@ -20,8 +21,8 @@ class M55GScanner(val portPath: String) : RFIDScanner {
   override fun start(activity: Activity, listener: TagListener?): Boolean {
     //上电操作
     write(POWER_PHAT, "1")
-
-    doAsync {
+    val handler = Handler(Looper.getMainLooper())
+    thread {
       startFlag = true
       A80STUhfReader.setPortPath(portPath)
       reader = A80STUhfReader.getInstance()
@@ -35,7 +36,7 @@ class M55GScanner(val portPath: String) : RFIDScanner {
               if (epc != null) {
                 val epcStr = Tools.Bytes2HexString(epc, epc.size)
                 if (!epcStr.isNullOrEmpty()) {
-                  uiThread {
+                  handler.post {
                     listener?.onSuccess(epcStr, "")
                   }
                   startFlag = false

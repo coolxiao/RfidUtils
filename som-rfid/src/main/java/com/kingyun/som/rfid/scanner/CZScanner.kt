@@ -10,7 +10,7 @@ import com.speedata.libuhf.IUHFService
 import com.speedata.libuhf.UHFManager
 import com.speedata.libuhf.bean.SpdInventoryData
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener
-import org.jetbrains.anko.doAsync
+import kotlin.concurrent.thread
 
 
 /**
@@ -36,7 +36,7 @@ class CZScanner : RFIDScanner {
         }
       })
 
-      doAsync {
+      thread {
         Looper.prepare()
         iuhfService = UHFManager.getUHFService(activity)
         val success = iuhfService?.openDev() != 0
