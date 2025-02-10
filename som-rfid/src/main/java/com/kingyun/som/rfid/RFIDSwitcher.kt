@@ -38,6 +38,7 @@ class RFIDSwitcher private constructor() {
                 "A80ST" -> A80STScanner()
                 "A2308" -> XYScanner("/dev/ttySWK0")
                 "L800", "L800D" -> M5Scanner(("/dev/ttyXRM1"))
+                "ZYSK-M100E" -> M100EScanner()
                 else -> {
                     try {
                         UHFScanner(null)
